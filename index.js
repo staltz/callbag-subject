@@ -5,7 +5,7 @@ function makeSubject() {
       const sink = data;
       sinks.push(sink);
       sink(0, t => {
-        if (t===2) {
+        if (t === 2) {
           const i = sinks.indexOf(sink);
           if (i > -1) sinks.splice(i, 1);
         }
