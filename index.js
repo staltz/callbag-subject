@@ -11,8 +11,10 @@ function makeSubject() {
         }
       });
     } else {
-      for (let i = 0, n = sinks.length; i < n; i++) {
-        sinks[i](type, data);
+      const zinkz = sinks.slice(0);
+      for (let i = 0, n = zinkz.length, sink; i < n; i++) {
+        sink = zinkz[i];
+        if (sinks.indexOf(sink) > -1) sink(type, data);
       }
     }
   }
