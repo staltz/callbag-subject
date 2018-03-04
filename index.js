@@ -1,4 +1,4 @@
-function makeSubject() {
+export function makeSubject() {
   let sinks = [];
   return (type, data) => {
     if (type === 0) {
@@ -19,5 +19,3 @@ function makeSubject() {
     }
   }
 }
-
-module.exports = makeSubject;
