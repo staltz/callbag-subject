@@ -113,3 +113,40 @@ test('it shares an async finite listenable source', t => {
     t.end();
   }, 700);
 });
+
+test('it does not emit data after it is completed and does not accept further sinks.', t => {
+  t.plan(5);
+
+  const expectedSink1 = [42, 'Hellow world'];
+  const expectedSink2 = ['Hellow world'];
+
+  const subject = makeSubject();
+  const r = [];
+
+  subject(0, (t, d) => {
+    if (t === 1)
+      r.push(d);
+  });
+
+  subject(1, 42);
+
+  const r2 = [];
+  subject(0, (t, d) => {
+    if (t === 1) r2.push(d);
+  });
+
+  subject(1, 'Hellow world');
+  t.deepEqual(r, expectedSink1, 'expected value for what sink 1 recorded before completion: ' + expectedSink1);
+  t.deepEqual(r2, expectedSink2, 'expected value for what sink 2 recorded before completion: ' + expectedSink2);
+  subject(2);
+
+  let respondedToSink3 = false;
+  subject(0, () => {
+    respondedToSink3 = true;
+  });
+
+  subject(1, 'Well ...');
+  t.deepEqual(r, expectedSink1, 'expected value for what sink 1 recorded after completion: ' + expectedSink1);
+  t.deepEqual(r2, expectedSink2, 'expected value for what sink 2 recorded after completion: ' + expectedSink2);
+  t.equal(respondedToSink3, false, 'expected to not have responded to sink 3 at all.');
+});
