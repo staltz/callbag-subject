@@ -1,6 +1,6 @@
 {
   "name": "callbag-subject",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A callbag listener sink which is also a listenable source",
   "repository": {
     "type": "git",
